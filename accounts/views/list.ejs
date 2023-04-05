@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0 auto;
+            padding: 0;
+        }
+        #body{
+            background: white;
+            width: 50%;
+            border: 1px solid gray;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .header{
+            padding: 20px 20px;
+            font-size: 30px;
+        }
+        .textbottom{
+            width: 100%;
+
+
+        }
+        .one{
+            margin: 5px;
+            border: 1px solid #c7bebe;
+            border-radius: 5px;
+        }
+        .one-top{
+            height: 40px;
+            background: pink;
+            line-height: 40px;
+            padding-left: 20px;
+        }
+        .one-bottom{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 50px;
+            overflow: hidden;
+        }
+        .one-bottom:hover .btn{
+            display: block;
+        }
+        .one-left{
+            width: 40%;
+        }
+        .one-bottom .one-center{
+            width: 40px;
+            height: 23px;
+            text-align: center;
+            line-height: 23px;
+            background: orange;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .two{
+            margin: 5px;
+            border: 1px solid #c7bebe;
+            border-radius: 5px;
+        }
+        .two-top{
+            height: 40px;
+            background: rgb(127, 204, 127);
+            line-height: 40px;
+            padding-left: 20px;
+        }
+        .two-bottom{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 50px;
+        }
+        .two-bottom:hover .btn{
+            display: block;
+        }
+        .two-left{
+            width: 40%;
+        }
+        .two-bottom .two-center{
+            width: 40px;
+            height: 23px;
+            text-align: center;
+            line-height: 23px;
+            background: rgb(110, 157, 39);
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn{
+            border: none;
+            width: 40px;
+            height: 23px;
+            background: rgb(225, 63, 63);
+            color: white;
+            font-size: 13px;
+            font-weight: 400;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="body">
+        <div class="header">
+            <p>记账本</p>
+        </div>
+        <hr>
+        <div class="textbottom">
+            <div class="one">
+                <div class="one-top">2023-04-05</div>
+                <div class="one-bottom">
+                    <div class="one-left">
+                        <span>一生只爱一人</span>
+                    </div>
+                    <div class="one-center">
+                        <div class="centerbox">支出</div>
+                    </div>
+                    <div class="one-right">
+                        <span>25元</span>
+                    </div>
+                    <div class="one-fox">
+                        <button class="btn">删除</button>
+                    </div>
+                </div>
+            </div>
+            <div class="two">
+                <div class="two-top">2023-04-05</div>
+                <div class="two-bottom">
+                    <div class="two-left">
+                        <span>3月发工资</span>
+                    </div>
+                    <div class="two-center">
+                        <div class="box">收入</div>
+                    </div>
+                    <div class="two-right">
+                        <span>25元</span>
+                    </div>
+                    <div class="two-fox">
+                        <button class="btn">删除</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -23,19 +23,23 @@
         }
         .textbottom{
             width: 100%;
-
-
         }
         .one{
             margin: 5px;
             border: 1px solid #c7bebe;
             border-radius: 5px;
+            margin: 10px;
         }
         .one-top{
             height: 40px;
-            background: pink;
             line-height: 40px;
             padding-left: 20px;
+        }
+        .top-success{
+            background: pink;
+        }
+        .top-danger{
+            background: rgb(127, 204, 127);
         }
         .one-bottom{
             display: flex;
@@ -55,44 +59,16 @@
             height: 23px;
             text-align: center;
             line-height: 23px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .center-success{
             background: orange;
             color: white;
-            font-size: 13px;
-            font-weight: 600;
         }
-
-        .two{
-            margin: 5px;
-            border: 1px solid #c7bebe;
-            border-radius: 5px;
-        }
-        .two-top{
-            height: 40px;
-            background: rgb(127, 204, 127);
-            line-height: 40px;
-            padding-left: 20px;
-        }
-        .two-bottom{
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            height: 50px;
-        }
-        .two-bottom:hover .btn{
-            display: block;
-        }
-        .two-left{
-            width: 40%;
-        }
-        .two-bottom .two-center{
-            width: 40px;
-            height: 23px;
-            text-align: center;
-            line-height: 23px;
+        .center-danger{
             background: rgb(110, 157, 39);
             color: white;
-            font-size: 13px;
-            font-weight: 600;
         }
         .btn{
             border: none;
@@ -113,40 +89,29 @@
         </div>
         <hr>
         <div class="textbottom">
+            <!-- 列表渲染 -->
+        <% accounts.forEach(item=>{ %>
             <div class="one">
-                <div class="one-top">2023-04-05</div>
+                <div class="one-top <%= item.type==='-1'?'top-success':'top-danger' %>"><%= item.time %></div>
                 <div class="one-bottom">
                     <div class="one-left">
-                        <span>一生只爱一人</span>
+                        <span><%= item.title %></span>
                     </div>
                     <div class="one-center">
-                        <div class="centerbox">支出</div>
+                        <div class="<%= item.type==='-1'?'center-success':'center-danger' %>"><%= item.type==='-1'?'支出':'收入' %></div>
                     </div>
                     <div class="one-right">
-                        <span>25元</span>
+                        <span><%= item.account %>元</span>
                     </div>
+                    <!-- 删除按钮 -->
+                    <a href="/account/<%= item.id %>">
                     <div class="one-fox">
                         <button class="btn">删除</button>
                     </div>
+                    </a>
                 </div>
             </div>
-            <div class="two">
-                <div class="two-top">2023-04-05</div>
-                <div class="two-bottom">
-                    <div class="two-left">
-                        <span>3月发工资</span>
-                    </div>
-                    <div class="two-center">
-                        <div class="box">收入</div>
-                    </div>
-                    <div class="two-right">
-                        <span>25元</span>
-                    </div>
-                    <div class="two-fox">
-                        <button class="btn">删除</button>
-                    </div>
-                </div>
-            </div>
+            <% }) %>
         </div>
     </div>
 </body>

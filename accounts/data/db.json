@@ -1,0 +1,28 @@
+{
+  "accounts": [
+    {
+      "id": "neSTHDKi3",
+      "title": "买草莓",
+      "time": "2023-02-17",
+      "type": "-1",
+      "account": "10",
+      "remarks": "买了草莓"
+    },
+    {
+      "id": "A2UySHgw1",
+      "title": "喝奶茶",
+      "time": "2023-02-17",
+      "type": "1",
+      "account": "123",
+      "remarks": "别人请的"
+    },
+    {
+      "id": "YMhwQ-Iao",
+      "title": "吃了好多全面面包",
+      "time": "2023-02-17",
+      "type": "-1",
+      "account": "10",
+      "remarks": "pdd下单"
+    }
+  ]
+}

@@ -18,6 +18,7 @@
             margin-top: 30px;
         }
         .header{
+            overflow: hidden;
             padding: 20px 20px;
             font-size: 30px;
         }
@@ -80,31 +81,51 @@
             font-weight: 400;
             display: none;
         }
+        .col{
+            float: left;
+        }
+        .col2{
+            float: right;
+        }
+        .button{
+            background: skyblue;
+            width: 80px;
+            height: 30px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            font-size: 20px;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
     <div id="body">
         <div class="header">
-            <p>记账本</p>
+            <div class="row">
+            <p class="col">记账本</p>
+            <p class="col2"><a href="/account/create" class="button">添加账单</a></p>
+        </div>
         </div>
         <hr>
         <div class="textbottom">
             <!-- 列表渲染 -->
         <% accounts.forEach(item=>{ %>
             <div class="one">
-                <div class="one-top <%= item.type==='-1'?'top-success':'top-danger' %>"><%= item.time %></div>
+                <div class="one-top <%= item.type===-1?'top-success':'top-danger' %>"><%= moment(item.time).format('YYYY-MM-DD') %></div>
                 <div class="one-bottom">
                     <div class="one-left">
                         <span><%= item.title %></span>
                     </div>
                     <div class="one-center">
-                        <div class="<%= item.type==='-1'?'center-success':'center-danger' %>"><%= item.type==='-1'?'支出':'收入' %></div>
+                        <div class="<%= item.type===-1?'center-success':'center-danger' %>"><%= item.type===-1?'支出':'收入' %></div>
                     </div>
                     <div class="one-right">
                         <span><%= item.account %>元</span>
                     </div>
                     <!-- 删除按钮 -->
-                    <a href="/account/<%= item.id %>">
+                    <a href="/account/<%= item._id %>" class="delBtn">
                     <div class="one-fox">
                         <button class="btn">删除</button>
                     </div>
@@ -116,3 +137,17 @@
     </div>
 </body>
 </html>
+<script>
+    let delBtns=document.querySelectorAll('.delBtn');
+    //绑定事件
+    delBtns.forEach(item=>{
+        item.addEventListener('click',function(e){
+            if(confirm('您确定要删除吗？')){
+                return true;
+            }else{
+                //阻止默认行为
+                e.preventDefault();
+            }
+        })
+    })
+</script>

@@ -8,6 +8,7 @@ var indexRouter = require('./routes/web/index');
 const authRouter = require('./routes/web/auth');
 //导入Api下的account接口路由文件
 const accountRouter = require('./routes/api/account');
+const authApiRouter = require('./routes/api/auth')
 
 //引入express-session和connect-mongo
 const session = require('express-session');
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 //session中间件
 app.use(session({
   name:'sid', //设置cookie的name,默认值是connect.sid
@@ -47,6 +49,7 @@ app.use('/', indexRouter);
 app.use('/', authRouter);
 //使用api下的account
 app.use('/api',accountRouter);
+app.use('/api',authApiRouter)
 
 
 // catch 404 and forward to error handler

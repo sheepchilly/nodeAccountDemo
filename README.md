@@ -416,3 +416,85 @@ router.get('/',(req,res)=>{
 ```
 
 2.在app.js中响应404的模板
+
+```js
+app.use(function(req, res, next) {
+  //响应404的模板
+  res.render('404');
+});
+```
+
+## 7.token和JWT
+
+1.什么是token？
+
+> token 是服务端生成并返回给HTTP客户端的一串加密字符串，token中保存着用户信息
+
+2.什么是jwt？
+
+> JWT JSON Web Token是目前最流行的跨域认证解决方案，可用于基于token的身份验证
+
+## 8.接口端约束
+
+**思路：**因为不管客户端发来的请求是什么样的，服务器都会返回数据，这样是不行的！所以我们要对它做一个约束
+
+1.在api文件夹下面新建auth.js
+
+2.接口端只需要做登录操作，在登录接口里面添加token
+
+- 引入jwt => npm i jsonwebtoken => const jwt = requrie('jsonwebtoken');
+- 要app.js里面注册/api/auth
+
+```js
+const authApiRouter = require('./routes/api/auth')
+app.use('/api',addApiRouter);
+```
+
+3.根据用户输入的用户名和密码查询数据库，然后生成jwt并返回=>用res.json返回
+
+```js
+router.post('/login',(req,res)=>{
+    //获取用户名和密码
+    let {username,password} = req.body;
+    //查询数据库
+    UserModule.findOne({username:username,password:md5(password)}).then(data=>{
+        if(!data){
+           return res.json({
+            code:'2001',
+            msg:'用户名或密码错误~~',
+            data:null
+           })
+        }
+        //写入jwt
+        let token = jwt.sign({
+            username:data.username,
+            _id:data._id
+        },'123123',{
+            expiresIn:60*60*24*7
+        })
+
+        res.json({
+            code:'0000',
+            msg:'登录成功！',
+            data:token //注意这里返回的是token
+        })
+    }).catch(err=>{
+            res.json({
+             code:'2001',
+             msg:'登录失败~~',
+             data:null
+            })
+        return;
+    })
+})
+```
+
+## 9.校验token
+
+1.在auth.js的account.js中校验
+
+2.首先引入jsonwebtoken => const jwt = require('jsonwebtoken');
+
+3.客户端把token发来，token放在什么位置呢？**答：**服务端告诉客户端token在哪里传递，token就在哪里（但是一般放在请求头当中）
+
+4.设置中间件，用来判断是否携带token

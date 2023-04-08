@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <style>
+        *{
+            margin: 0 auto;
+            padding: 0;
+        }
+        .box{
+            width: 50%;
+            border: 1px solid gray;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .container{
+            padding: 10px;
+        }
+        .header{
+            padding: 10px;
+            font-size: 40px;
+        }
+        .form{
+            margin:10px 0 10px 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .btn-bottom{
+            height: 50px;
+            position: relative;
+        }
+        .btn{
+            height: 30px;
+            width: 80%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-40%);
+            background: #1067D1;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="container">
+            <div class="header">
+                登录
+            </div>
+            <hr>
+            <form method="post" action="/login">
+                <div class="form">
+                    <label for="item">用户名</label>
+                    <input type="text" class="text" id="time" name="username">
+                </div>
+                <div class="form">
+                    <label for="item">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                    <input type="password" class="text" id="time" name="password">
+                </div>
+                <hr>
+                <div class="btn-bottom">
+                <button type="submit" class="btn">注册</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

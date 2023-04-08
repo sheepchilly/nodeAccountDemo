@@ -281,3 +281,138 @@ router.patch('/account/:id',(req,res)=>{
   AccountModule.updateOne({_id:id},req.body).then(data=>{})
 ```
 
+# 4.版本4：session
+
+1.在routes->web->auth.js中增加路由规则
+
+2.用render引入HTML模板引擎
+
+3.因为没有用过reg的路由，所以需要在app.js中引入
+
+## 1.新增注册页面
+
+**目的：**根据不同用户设置不同的权限
+
+1.form表单验证，用post方法提交到/reg，所以要再创建一条路由规则
+
+2.新建数据模型用于存储表单数据，并在路由规则里引入数据模型
+
+3.往数据库中添加用户输入的账号和密码，并且对密码加密 => 用md5加密 npm i md5
+
+```js
+router.post('/reg',(req,res)=>{
+    //1.做表单验证
+    //2.获取请求体的数据
+    userModle.create({...req.body,password:md5(req.body.password)}).then(data=>{
+        res.render('success',{msg:'注册成功',url:'/login'})
+
+    }).catch(err=>{
+        res.status(500).send('注册失败，请稍后再试~');
+        return;
+    })
+})
+```
+
+
+
+## 2.用户登录
+
+1.新建登录的页面和路由规则
+
+2.用户登陆后向数据库查询对应的username和password，返回的结果有两种 => 1.用户输对了账号和密码 2.用户输错误的账号和密码，所以要进行判断
+
+```js
+router.post('/login',(req,res)=>{
+    //获取用户名和密码
+    let {username,password} = req.body;
+    //查询数据库
+    UserModule.findOne({username:username,password:md5(password)}).then(data=>{
+        if(!data){
+           return res.send('账号或密码错误');
+        }
+        res.render('success',{msg:'登录成功',url:'/account'})
+    }).catch(err=>{
+        res.status(500).send('登陆失败~~');
+        return;
+    })
+})
+```
+
+## 3.写入session
+
+**思路：**用户登录成功之后再去写入session
+
+1.安装 => npm i express-session connect-mongo  ，在app.js中导入express-session和connect-mongo =>const session = require('express-session'); => const MongoStorage = require('connect-mongo');
+
+2.在app.js下配置session中间件
+
+3.在auth.js的router.post('/login')的成功结果中写入session
+
+```js
+router.post('/login',(req,res)=>{
+    //获取用户名和密码
+    let {username,password} = req.body;
+    //查询数据库
+    UserModule.findOne({username:username,password:md5(password)}).then(data=>{
+        if(!data){
+           return res.send('账号或密码错误');
+        }
+        //写入session
+        req.session.username = data.username;
+        req.session._id = data._id; //用户文档里面的id
+        res.render('success',{msg:'登录成功',url:'/account'})
+    }).catch(err=>{
+        res.status(500).send('登陆失败~~');
+        return;
+    })
+})
+```
+
+## 4.用户登录检测
+
+1.当用户在地址栏输入目标url的时候，判断用户是否携带着session，如果没有就跳转至登录页=>redirect('/login')，如果携带就放行
+
+2.因为有很多个路由都要使用这个路由判断，所以可以把他封装成一个中间件，在需要使用的路由规则中间使用（把中间件放在一个单独的文件夹下）
+
+```js
+//声明中间件检测登录
+module.exports = (req,res,next)=>{
+    if(!req.session.username){
+      return res.redirect('/login');
+    }else{
+      next();
+    }
+  }
+//使用：
+const checkLoginMiddleware = require('../../middlewares/checkLoginMiddleWare');
+router.get('/account',checkLoginMiddleware,async function(req, res, next) {}
+```
+
+## 5.退出登录
+
+**思路**：用户一点击退出后就销毁session，然后跳转至登陆页
+
+1.在auth.js中增加一条路由规则，使用req.session.destroy()方法销毁session，然后用render跳转到success页面
+
+```js
+//退出登录
+router.post('/logout',(req,res)=>{
+    //销毁session
+    req.session.destroy(()=>{
+        res.render('success',{msg:'退出成功',url:"/login"});
+    })
+})
+```
+
+## 6.首页和404页面
+
+1.首页直接重定向到/account页面
+
+```js
+router.get('/',(req,res)=>{
+  //重定向到账本列表页
+  res.redirect('/account')
+})
+```
+
+2.在app.js中响应404的模板
